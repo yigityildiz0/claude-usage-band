@@ -2,8 +2,19 @@
   "name": "usage-band",
   "version": "0.3.0",
   "description": "Usage band above the prompt: 5-hour and weekly limits with a forecast to the reset, context fill, one-click and auto compact (shared with pixel-office). A fork of usage-quota 0.1.6.",
-  "author": { "name": "yigityildiz0 (fork); original by Anant Raghunath" },
+  "author": {
+    "name": "yigityildiz0 (fork); original by Anant Raghunath"
+  },
+  "homepage": "https://github.com/yigityildiz0/claude-usage-band",
+  "repository": "https://github.com/yigityildiz0/claude-usage-band",
   "license": "MIT",
-  "keywords": ["usage", "quota", "limit", "context", "compact", "mod"],
+  "keywords": [
+    "usage",
+    "quota",
+    "limit",
+    "context",
+    "compact",
+    "mod"
+  ],
   "types": "./types/index.d.ts"
 }
