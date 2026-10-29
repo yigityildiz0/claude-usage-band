@@ -1,0 +1,9 @@
+{
+  "name": "kota-bandi",
+  "version": "0.3.0",
+  "description": "İstem kutusunun üstünde Türkçe kota bandı: 5 saatlik ve haftalık kullanım, sıfırlanmaya kadar tahmin, bağlam doluluğu, tek tıkla ve otomatik sıkıştırma. usage-quota 0.1.6'nın çatalı.",
+  "author": { "name": "Yiğit (çatal); asıl yazar Anant Raghunath" },
+  "license": "MIT",
+  "keywords": ["kullanım", "kota", "limit", "bağlam", "sıkıştırma", "mod"],
+  "types": "./types/index.d.ts"
+}

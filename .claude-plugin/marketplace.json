@@ -1,0 +1,9 @@
+{
+  "name": "claude-usage-band",
+  "owner": { "name": "yigityildiz0" },
+  "metadata": { "description": "A usage band above the Claude Code prompt: limits, forecast, context and auto-compact. English (usage-band) and Turkish (kota-bandi)." },
+  "plugins": [
+    { "name": "usage-band", "source": "./usage-band", "description": "English: 5-hour and weekly limits with a forecast to the reset, context fill, one-click and auto compact.", "version": "0.3.0", "license": "MIT" },
+    { "name": "kota-bandi", "source": "./kota-bandi", "description": "Türkçe: 5 saatlik ve haftalık limitler, sıfırlanmaya kadar tahmin, bağlam doluluğu, tek tıkla ve otomatik sıkıştırma.", "version": "0.3.0", "license": "MIT" }
+  ]
+}
