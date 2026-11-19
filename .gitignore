@@ -1,0 +1,3 @@
+# local working notes and generated output stay out of the repository
+.plan/
+graphify-out/

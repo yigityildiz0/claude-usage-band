@@ -1,0 +1,22 @@
+{
+  "name": "kota-bandi",
+  "version": "0.5.0",
+  "description": "Turkish usage-quota band above the prompt box: 5-hour and weekly limits, effective time left and run-out forecast, context fill, one-click and automatic compaction, detailed, short and hidden views, optional other-platform quotas via the Burette service. A fork of usage-quota 0.1.6.",
+  "author": {
+    "name": "Yiğit Yıldız (fork); original author Anant Raghunath"
+  },
+  "homepage": "https://github.com/yigityildiz0/claude-usage-band",
+  "repository": "https://github.com/yigityildiz0/claude-usage-band",
+  "license": "MIT",
+  "keywords": [
+    "usage",
+    "quota",
+    "limit",
+    "context",
+    "compact",
+    "mod",
+    "kota",
+    "kullanım"
+  ],
+  "types": "./types/index.d.ts"
+}

@@ -1,128 +1,151 @@
-<div align="center">
+# Kota Bandı (claude-usage-band)
 
-# 📊 Usage Band · Kota Bandı
+A usage-quota band that sits right above the prompt box in Claude Code. It shows your
+5-hour and weekly limits, when you will run out at the current pace, how full the context
+window is, and compacts the conversation for you before it overflows.
 
-**İstem kutusunun hemen üstünde limitler, tahmin, bağlam ve oto-sıkıştırma.**<br>
-**Limits, forecast, context and auto-compact, right above the prompt.**
+English | [Türkçe](README.tr.md)
 
-[![Türkçe](https://img.shields.io/badge/🇹🇷_Türkçe-oku-D97757?style=for-the-badge)](#-türkçe)
-[![English](https://img.shields.io/badge/🇬🇧_English-read-6A9BCC?style=for-the-badge)](#-english)
-[![ZIP indir · Download ZIP](https://img.shields.io/badge/⬇_ZIP_indir_·_Download-141413?style=for-the-badge)](https://github.com/yigityildiz0/claude-usage-band/archive/refs/heads/main.zip)
+**The interface text is Turkish** (labels, notifications, `/kota` arguments). Only this
+README and the code comments are in English.
 
-![Version](https://img.shields.io/badge/version-0.3.0-D4A27F?style=flat-square)
-![Claude Code](https://img.shields.io/badge/Claude_Code-mod-D97757?style=flat-square)
-![License](https://img.shields.io/badge/license-MIT-788C5D?style=flat-square)
+This is a fork of Anant Raghunath's
+[usage-quota](https://github.com/anantraghunath/claude-code-usage-quota-mod) mod
+(MIT, version 0.1.6). The original license is kept in `LICENSE`.
 
-<img src="assets/band-tr.png" alt="Kota bandı" width="100%">
-
-</div>
-
----
-
-## 🇹🇷 Türkçe
-
-Kaç mesaj hakkın kaldığını, kotanın sıfırlanmaya yetip yetmeyeceğini ve bağlamın ne kadar dolduğunu, sohbetten ayrılmadan istem kutusunun üstünde görürsün.
-
-| Bölüm | Ne gösteriyor |
-|---|---|
-| 🟢 **Başlık** | Bu hızla kotanın sıfırlanmaya yetip yetmeyeceğini tek cümleyle söyler. |
-| ⏱️ **5 Saat / Haftalık** | Kullanılan yüzdeyi gösterir. Çubuktaki gri çentik, **sıfırlandığında nerede olacağının tahminidir**. Altında sıfırlanmaya kalan süre yazar. |
-| 🧠 **Bağlam** | Doluluk yüzdesi ve boş alan; Mesajlar / Araçlar / Diğer diye ayrılmış hâliyle. |
-| 🔁 **Oto. sıkıştır** | Anahtarla açılıp kapanır. Eşik **−/+** ile 5'er 5'er ayarlanır (%15–%95). Bağlam eşiğe gelince, tur bittiğinde sohbet kendiliğinden sıkıştırılır. |
-| 🗜️ **Sıkıştır** | Tek tıkla hemen sıkıştırır. |
-
-Renkler: limitte %75'ten sonra sarı, %90'dan sonra kırmızı; bağlamda %50'den sonra sarı, %80'den sonra kırmızı.
-
-### ⬇️ Kurulum
-
-**Claude Code terminalinde** şunu yaz:
+## Install
 
 ```
 /plugin install kota-bandi --marketplace yigityildiz0/claude-usage-band
 ```
 
-Soru gelince `y` yaz, sonra Enter'a bas. Bant hemen görünür; `/kota` yazarak açıp kapatabilirsin.
+This one-step install line works on Claude Code 2.1.275 or later. Afterwards, run
+`/reload-plugins` in open chats.
 
-**Kabuktan** kurmak için:
+## What it shows
 
-```bash
-claude plugin install kota-bandi --marketplace yigityildiz0/claude-usage-band
-```
+- **5 Saat (5-hour) and Haftalık (weekly) limits:** share used, time to reset, and a grey
+  tick on the bar for "at this pace, at most X% by the reset". If a limit will fill before
+  its reset, the band says when ("bugün 14:20 (2sa 3dk sonra)").
+- **Etkin kalan (effective time left):** the two windows are read together. The one that
+  binds first (full, filling first, or with the least left) is named and underlined. If both
+  are full, it gives the time use opens up again.
+- **Early-exhaustion warning:** one notification per window period, shared by all chats, when
+  a window is on course to fill at least 15 minutes before its reset and there is enough data
+  to say so. Early in a window the forecast is marked "(tahmini)".
+- **Context:** fill percentage, split into Messages, Tools and Other.
+- **Compact button and auto-compact:** a **Sıkıştır** button, plus per-chat automatic
+  compaction. It is on by default at 75%; the threshold moves in 5-point steps (15% to 95%)
+  with the `−` and `+` buttons.
 
-**Masaüstü uygulamasında** şu adımları izle:
-1. İstem kutusunun yanındaki **+** düğmesine bas.
-2. **Plugins** → **Add marketplace** seç ve `yigityildiz0/claude-usage-band` yaz.
-3. **Add plugin** ile `kota-bandi` modunu ekle.
+## Three views
 
-> 🤖 **Claude'a yaptırmak istersen** şu mesajı aynen yapıştır:
->
-> ```
-> Claude Code için "kota-bandi" modunu kur: marketplace yigityildiz0/claude-usage-band.
-> Türkçe sürümü (kota-bandi) kur, İngilizce usage-band'i kurma. Kurduktan sonra
-> istem kutusunun üstündeki bandın göründüğünü kontrol et.
-> ```
+The view is shared by all chats and remembered.
 
-### 🤝 Claude Ofis ile birlikte
+| View | What stays | How |
+|---|---|---|
+| **Detaylı** (detailed) | Everything: header, both windows, context breakdown, other-platform table | `▲` or `/kota detaylı` |
+| **Kısa** (short) | Header, controls and the three bars on one row (stacked if they do not fit) | `▼` or `/kota kısa` |
+| **Gizli** (hidden) | A small square button on the right; its dot shows the state of the tightest limit (or the context). Hover for a one-line summary. Press it to return to the last open view | `Gizle` or `/kota gizli` |
 
-[claude-pixel-office](https://github.com/yigityildiz0/claude-pixel-office) de kuruluysa oto-sıkıştırma ayarı **ortaktır**: ofis panelinden de bu banttan da değiştirebilirsin. İkisi birlikte kuruluyken sıkıştırmayı yalnızca bu bant yapar, böylece sohbet iki kez sıkıştırılmaz.
+`/kota` alone turns the band on or off (persistent); auto-compact keeps running while it is
+off. When the window is too short for the detailed view, the band draws the short view
+without changing your setting.
 
-> ⚠️ Aynı modun iki dilini birlikte kurma: ya `kota-bandi` ya `usage-band`.
+The band lays out without overflow at any width of 20 columns or more: two blocks side by
+side on wide screens, stacked on narrow ones, with the percentages and the threshold always
+fully visible. See [docs/tasarim.md](docs/tasarim.md) for the breakpoints.
 
-Bu mod, Anant Raghunath'ın [usage-quota](https://github.com/anantraghunath/claude-code-usage-quota-mod) modunun MIT lisanslı bir çatalıdır. Eklenenler: Türkçe arayüz, hata düzeltmeleri, ofisle ortak oto-sıkıştırma. Ayrıca tema okumak için artık her 15 saniyede bir pencere açan bir süreç başlatmıyor.
+Colours: text uses the theme's own colours; the bars and dots are mid tones with at least 3:1
+contrast on both dark and light backgrounds. The plan name (Max, Plus, ...) is never shown.
 
----
+## Optional: other platforms through Burette
 
-## 🇬🇧 English
+Burette is a local usage service (a Rust daemon, Windows) that tracks the quotas of other AI
+tools. If it is running, the band talks to it; if not, nothing is shown and the band works on
+its own.
 
-See how much of your quota is left, whether it lasts until the reset, and how full the context is, right above the prompt without leaving the chat.
-
-<img src="assets/band-en.png" alt="Usage band" width="100%">
-
-| Part | What it shows |
+| What | How |
 |---|---|
-| 🟢 **Headline** | One sentence: at this pace, does your quota last until it resets? |
-| ⏱️ **5 hour / Weekly** | The % used. The grey tick on the bar is **where you are forecast to be at the reset**. Below it, the time left until the reset. |
-| 🧠 **Context** | How full it is and what is free, split into Messages / Tools / Other. |
-| 🔁 **Auto compact** | Turned on and off with the switch. The threshold steps by 5 with **−/+** (15%–95%). At the threshold, the chat compacts by itself once the turn ends. |
-| 🗜️ **Compact** | Compacts now, in one click. |
+| Connection | Reads only `port` and the token from `%LOCALAPPDATA%\Cetvel\baglanti.json` (the directory keeps the service's earlier name). The address is always `http://127.0.0.1:<port>`. The token stays in memory and is never logged, drawn or stored. On a 401 the file is re-read once. |
+| Claude figures | The Claude limits the band already reads are sent to the service. |
+| One asker | Before the 2-minute plan query, the band asks the service for a lease. If another chat holds it, this chat does not ask and reads that chat's result from the service instead. |
+| Other platforms | Polled every 10 seconds (ETag/304). The detailed view lists each connected pool with the share **left** in its windows, plus reset times and model names on hover. Plan names are never shown. Narrow bands drop to two-row cards; on the one-line summary the tightest pools stay and the rest become `+N`. |
+| Forecast | The service's EWMA pace is used when its reset matches the band's window. For the weekly window only a verified (`hazir`) forecast counts; experimental ones are ignored because a short burst would be spread over the whole week. Otherwise the band's own damped pace is used. |
+| Service goes quiet | Exponential back-off (5 to 60 s); the line greys out and reads "(Cetvel yanıt vermiyor)", then disappears after 10 minutes. |
 
-Colours: limits turn amber at 75% and red at 90%; the context turns amber at 50% and red at 80%.
+Why HTTP: the mod engine's `$.http.fetch` can reach the loopback address; `$.process` exists
+only in the CLI and would spawn a process every few seconds; reading the snapshot file alone
+could neither post the figures nor take the lease.
 
-### ⬇️ Install
+## Privacy
 
-**In a Claude Code terminal**, type:
+- The band makes **no model calls** and has no telemetry.
+- Network: one query to `api.anthropic.com/api/oauth/usage` (the same data the app's own
+  "Plan usage limits" panel reads), through the session's own credential, which the mod never
+  sees. At most once every 2 minutes across all chats. If Burette runs, requests also go to
+  `127.0.0.1`, and only there.
+- Files written: the mod's settings store under `~/.claude/plugins/store/`, a fallback folder
+  `~/.claude/plugins/data/kota-bandi/` and the shared auto-compact folder described below.
+  Nothing is sent anywhere else.
+
+## If the original usage-quota mod is also on
+
+Both together mean two bands, two auto-compact runners and double queries to the usage
+service. At startup and once a minute the band checks, and shows a one-line warning
+("İki kota bandı açık: ...") when the original is enabled, or disabled but still loaded in an
+open chat. To remove it for good:
 
 ```
-/plugin install usage-band --marketplace yigityildiz0/claude-usage-band
+claude plugin uninstall usage-quota@claude-code-usage-quota-mod
 ```
 
-When asked, type `y`, then press Enter. The band shows at once; type `/quota` to show or hide it.
+then `/reload-plugins` in open chats (setting it to `false` does not unload it from a running
+chat). Kota Bandı never enables or disables the original and never writes to its settings; on
+first install it reads the original's auto-compact settings and learned pace once and copies
+them.
 
-**From a shell**:
+## If the settings store is corrupted
 
-```bash
-claude plugin install usage-band --marketplace yigityildiz0/claude-usage-band
-```
+The engine's settings store (`~/.claude/plugins/store/kota-bandi_*.json`) was once filled with
+NUL bytes during a write: reads came back empty and writes failed. At startup the band tests
+the store (write, read back). If it is broken, the band shows one notification, keeps each key
+in a small file of its own under `~/.claude/plugins/data/kota-bandi/depo/`, retries every 5
+minutes, and moves the values back when the store recovers. To repair by hand: back up and
+delete the store file, then run `/reload-plugins`; the engine recreates it.
 
-**In the desktop app**:
-1. Click **+** next to the prompt box.
-2. Choose **Plugins** → **Add marketplace** and enter `yigityildiz0/claude-usage-band`.
-3. Use **Add plugin** to add `usage-band`.
+## Differences from the original
 
-> 🤖 **To let Claude do it**, paste this message:
->
-> ```
-> Install the Claude Code mod "usage-band" from the marketplace
-> yigityildiz0/claude-usage-band (the English one, not kota-bandi),
-> then check that the band shows above the prompt.
-> ```
+- All text is Turkish; percentages in Turkish style (%60), durations in g/sa/dk; 99.6% is
+  shown as %99, never as full.
+- The threshold field showed one digit on desktop ("4" for "40"); the text box was replaced
+  by a plus/minus control that is fully visible on every surface.
+- Three views, the Burette integration, shared auto-compact settings and store recovery are
+  new.
+- The usage rate learned by the original and its per-chat settings are taken over once.
+- An exact context count (about 320 requests) is taken in one chat every 2 minutes, and the
+  result is shared with the others.
+- After `/clear`, the new chat id continues with the old chat's auto-compact setting.
 
-### 🤝 With Claude Office
+## Sharing auto-compact with another mod
 
-If [claude-pixel-office](https://github.com/yigityildiz0/claude-pixel-office) is installed too, the auto-compact setting is **shared**: change it from the office pane or from this band. With both installed, only this band does the compacting, so the chat never compacts twice.
+If two mods offer auto-compact, there should be one setting and one runner. Kota Bandı uses
+the convention below, so another mod can follow it:
 
-> ⚠️ Install only one language of a mod: `usage-band` or `kota-bandi`.
+| Rule | How |
+|---|---|
+| Shared setting | One file per chat: `~/.claude/plugins/data/claude-auto-compact/<chat>.json` (`isOn`, `at`, `t`). Changing it in either mod reaches the other within about 3 seconds. |
+| One runner | Kota Bandı writes `kota-bandi.alive` every 5 s (also in the hidden view). Another mod should not compact while that file is less than 20 s old. |
+| Alone | Whichever mod is installed alone does the compaction. |
+| Claude Code's built-in compaction | It is independent of mods. If `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` is lower than the mod's threshold (for example 60), the app compacts first. Keep it above the highest mod threshold (95%), such as 97, or leave it unset. |
+| Default | On, 75%, in a new chat. Older versions' 40% and 80% defaults are moved to 75% once; a threshold that was set by hand is never touched. |
 
-This mod is an MIT-licensed fork of [usage-quota](https://github.com/anantraghunath/claude-code-usage-quota-mod) by Anant Raghunath. What it adds: a Turkish interface, bug fixes and auto-compact shared with the office. It also no longer starts a process every 15 seconds to read the theme, which flashed a window.
+Two writers never edit the same file: each mod writes only its own `.alive` file.
 
-<div align="center"><sub>MIT · <a href="LICENSE">LICENSE</a></sub></div>
+## Development
+
+See [AGENTS.md](AGENTS.md). Run the tests with `claude plugin test .`.
+
+## License
+
+MIT. Copyright (c) 2026 Anant Raghunath and Yiğit Yıldız. See [LICENSE](LICENSE).
