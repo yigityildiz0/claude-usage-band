@@ -1,10 +1,11 @@
 # Kota Bandı (claude-usage-band)
 
+English | [Türkçe](README.tr.md)
+
 A usage-quota band that sits right above the prompt box in Claude Code. It shows your
 5-hour and weekly limits, when you will run out at the current pace, how full the context
-window is, and compacts the conversation for you before it overflows.
-
-English | [Türkçe](README.tr.md)
+window is, and compacts the conversation for you before it overflows. It is for anyone who
+hits Claude Code limits or a full context window in the middle of work.
 
 **The interface text is Turkish** (labels, notifications, `/kota` arguments). Only this
 README and the code comments are in English.
@@ -19,8 +20,15 @@ This is a fork of Anant Raghunath's
 /plugin install kota-bandi --marketplace yigityildiz0/claude-usage-band
 ```
 
-This one-step install line works on Claude Code 2.1.275 or later. Afterwards, run
-`/reload-plugins` in open chats.
+This one-step install line works on Claude Code 2.1.275 or later. If your version does not
+recognise it, add the marketplace first and install from it:
+
+```
+/plugin marketplace add yigityildiz0/claude-usage-band
+/plugin install kota-bandi@claude-usage-band
+```
+
+Afterwards, run `/reload-plugins` in open chats.
 
 ## What it shows
 
@@ -54,14 +62,15 @@ without changing your setting.
 
 The band lays out without overflow at any width of 20 columns or more: two blocks side by
 side on wide screens, stacked on narrow ones, with the percentages and the threshold always
-fully visible. See [docs/tasarim.md](docs/tasarim.md) for the breakpoints.
+fully visible. See [docs/tasarim.md](docs/tasarim.md) (in Turkish) for the breakpoints.
 
 Colours: text uses the theme's own colours; the bars and dots are mid tones with at least 3:1
-contrast on both dark and light backgrounds. The plan name (Max, Plus, ...) is never shown.
+contrast on both dark and light backgrounds. The subscription plan name is never shown.
 
 ## Optional: other platforms through Burette
 
-Burette is a local usage service (a Rust daemon, Windows) that tracks the quotas of other AI
+[Burette](https://github.com/yigityildiz0/burette) is a local usage service (a Rust daemon,
+Windows) that tracks the quotas of other AI
 tools. If it is running, the band talks to it; if not, nothing is shown and the band works on
 its own.
 
@@ -142,9 +151,30 @@ the convention below, so another mod can follow it:
 
 Two writers never edit the same file: each mod writes only its own `.alive` file.
 
+## Uninstall
+
+```
+claude plugin uninstall kota-bandi@claude-usage-band
+```
+
+then `/reload-plugins` in open chats. The small files the band wrote (see Privacy) can be
+deleted by hand: `~/.claude/plugins/data/kota-bandi/`. Leave
+`~/.claude/plugins/data/claude-auto-compact/` alone if another mod still shares it.
+
+## Troubleshooting
+
+| Symptom | What to check |
+|---|---|
+| No band after install | Run `/reload-plugins` in the open chat. Check that Claude Code is 2.1.275 or later for the one-line install. |
+| The band vanished | `/kota` alone toggles it, so you may have switched it off: run `/kota` again. In the hidden view only a small square button stays at the right edge. |
+| Two bands, or a warning that two are on | The original usage-quota mod is also loaded; see "If the original usage-quota mod is also on". |
+| Settings are not remembered | See "If the settings store is corrupted". |
+| No other-platform table | Burette is optional and must be running; without it nothing is shown. |
+
 ## Development
 
-See [AGENTS.md](AGENTS.md). Run the tests with `claude plugin test .`.
+See [AGENTS.md](AGENTS.md). Run `claude plugin validate .` and `claude plugin test .` from the
+repository root.
 
 ## License
 

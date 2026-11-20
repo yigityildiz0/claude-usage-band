@@ -1,10 +1,11 @@
 # Kota Bandı (claude-usage-band)
 
+[English](README.md) | Türkçe
+
 Claude Code'da istem kutusunun hemen üstünde duran kullanım kotası bandı. 5 saatlik ve
 haftalık limitleri, bu hızla ne zaman biteceğini ve bağlam penceresinin ne kadar dolduğunu
-gösterir; bağlam taşmadan önce sohbeti sizin yerinize sıkıştırır.
-
-[English](README.md) | Türkçe
+gösterir; bağlam taşmadan önce sohbeti sizin yerinize sıkıştırır. İşin ortasında Claude Code
+limitine ya da dolu bağlama takılan herkes için.
 
 **Arayüz metinlerinin hepsi Türkçedir** (etiketler, bildirimler, `/kota` argümanları).
 
@@ -18,8 +19,15 @@ Anant Raghunath'ın
 /plugin install kota-bandi --marketplace yigityildiz0/claude-usage-band
 ```
 
-Bu tek adımlık kurulum satırı Claude Code 2.1.275 ve sonrasında çalışır. Kurduktan sonra açık
-sohbetlerde `/reload-plugins` yapın.
+Bu tek adımlık kurulum satırı Claude Code 2.1.275 ve sonrasında çalışır. Sürümünüz satırı
+tanımazsa önce pazar yerini ekleyip oradan kurun:
+
+```
+/plugin marketplace add yigityildiz0/claude-usage-band
+/plugin install kota-bandi@claude-usage-band
+```
+
+Kurduktan sonra açık sohbetlerde `/reload-plugins` yapın.
 
 ## Ne gösterir
 
@@ -55,13 +63,13 @@ ekranda alt alta; yüzdeler ve eşik her zaman tam görünür. Kırılım noktal
 [docs/tasarim.md](docs/tasarim.md) dosyasına bakın.
 
 Renkler: yazılar temanın kendi renkleriyle çizilir; çubuklar ve noktalar hem koyu hem açık
-zeminde en az 3:1 kontrastlı orta tonlardır. Abonelik adı (Max, Plus...) hiçbir yerde
+zeminde en az 3:1 kontrastlı orta tonlardır. Abonelik planının adı hiçbir yerde
 gösterilmez.
 
 ## İsteğe bağlı: Burette ile diğer platformlar
 
-Burette, başka yapay zekâ araçlarının kotalarını izleyen yerel bir kullanım servisidir (Rust,
-Windows). Çalışıyorsa bant onunla konuşur; çalışmıyorsa hiçbir şey göstermez ve bant tek
+[Burette](https://github.com/yigityildiz0/burette), başka yapay zekâ araçlarının kotalarını
+izleyen yerel bir kullanım servisidir (Rust, Windows). Çalışıyorsa bant onunla konuşur; çalışmıyorsa hiçbir şey göstermez ve bant tek
 başına çalışır.
 
 | Ne | Nasıl |
@@ -138,9 +146,30 @@ düzeni kullanır; başka bir mod da buna uyabilir:
 
 İki yazar aynı dosyayı düzenlemez: her mod yalnız kendi `.alive` dosyasını yazar.
 
+## Kaldırma
+
+```
+claude plugin uninstall kota-bandi@claude-usage-band
+```
+
+Sonra açık sohbetlerde `/reload-plugins` yapın. Bandın yazdığı küçük dosyaları (bkz. Gizlilik)
+isterseniz elle silebilirsiniz: `~/.claude/plugins/data/kota-bandi/`. Başka bir mod hâlâ
+paylaşıyorsa `~/.claude/plugins/data/claude-auto-compact/` klasörüne dokunmayın.
+
+## Sorun giderme
+
+| Belirti | Neye bakılır |
+|---|---|
+| Kurulumdan sonra bant yok | Açık sohbette `/reload-plugins` yapın. Tek satırlık kurulum için Claude Code sürümünün 2.1.275 ya da üstü olduğundan emin olun. |
+| Bant kayboldu | `/kota` tek başına bandı açıp kapatır, kapatmış olabilirsiniz: `/kota` yazın. Gizli görünümde yalnız sağ uçta küçük kare bir düğme kalır. |
+| İki bant ya da "İki kota bandı açık" uyarısı | Özgün usage-quota modu da yüklüdür; "Özgün usage-quota modu da açıksa" bölümüne bakın. |
+| Ayarlar hatırlanmıyor | "Ayar deposu bozulursa" bölümüne bakın. |
+| Diğer platformlar tablosu yok | Burette isteğe bağlıdır ve çalışıyor olmalıdır; çalışmıyorsa hiçbir şey gösterilmez. |
+
 ## Geliştirme
 
-[AGENTS.md](AGENTS.md) dosyasına bakın. Testler `claude plugin test .` ile çalışır.
+[AGENTS.md](AGENTS.md) dosyasına bakın. Depo kökünde `claude plugin validate .` ve
+`claude plugin test .` çalıştırın.
 
 ## Lisans
 

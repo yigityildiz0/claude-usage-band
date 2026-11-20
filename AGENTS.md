@@ -32,7 +32,7 @@ Run both from the repository root. Both must pass before a change is done.
 
 - **User-visible text is Turkish.** Keep every label, notification and command argument in
   Turkish, with Turkish percent style (`%60`) and the g/sa/dk duration units. Code, comments
-  and docs are English.
+  and docs are English, except `docs/tasarim.md`, the design notes, which are in Turkish.
 - **Do not edit `hooks/shared.ts` on its own.** It defines the auto-compact file format
   (`<chat>.json` and `<mod>.alive` under `claude-auto-compact`) that other mods share, and it
   is kept identical across them. A format change needs a matching change in every mod that
@@ -44,7 +44,7 @@ Run both from the repository root. Both must pass before a change is done.
   it. The mod never sees the session credential.
 - **Layout must not overflow or clip** at any width from 20 columns up. When you change the
   layout, extend the width tests; see [docs/tasarim.md](docs/tasarim.md) for the breakpoints.
-- **Do not show plan names** (Max, Plus, Pro, Ultra...) anywhere in the band.
+- **Do not show subscription plan names** anywhere in the band.
 - **Do not touch the original usage-quota mod's settings.** The band only reads them once on
   first install.
 - Keep the README (English) and README.tr.md (Turkish) in step, and do not document features
